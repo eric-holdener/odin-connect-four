@@ -1,15 +1,82 @@
 class ConnectFour
   attr_accessor :player_b, :player_r, :game_board
-  def initialize
+  def initialize(board_width, board_height)
     @player_b = Player.new('b')
     @player_r = Player.new('r')
-    @game_board = create_game_board
+    @game_board = create_game_board(board_width, board_height)
   end
 
-  def create_game_board
+  def create_game_board(board_width, board_height)
     game_board = []
-    7.times { game_board.push(Array.new(7)) }
+    board_width.times { game_board.push(Array.new(board_height)) }
     game_board
+  end
+
+  def check_for_win(player, board = @game_board)
+    # j for height traversal
+    # i for width traversal
+    # horizontal checks
+    j = 0
+    while j < board_height - 3
+      i = 0
+      while i < board_width - 2
+        if board[i][j] == player && board[i][j+1] == player && board[i][j+2] == player && board[i][j+3] == player
+          return true
+        end
+        i += 1
+      end
+      j += 1
+    end
+
+    # vertical checks
+    i = 0
+    while i < board_width - 3
+      j = 0
+      while j < board_height
+        if board[i][j] == player && board[i+1][j] == player && board[i+2][j] == player && board[i+3][j] == player
+          return true
+        end
+        j += 1
+      end
+      j += 1
+    end
+
+    # ascending diagonal check
+    i = 3
+    while i < board_width
+      j = 0
+      while j < board_height - 3
+        if board[i][j] == player && board[i-1][j+1] == player && board[i-2][j+2] == player && board[i-3][j+3] == player
+          return true
+        end
+        j += 1
+      end
+      i += 1
+    end
+
+    # descending diagonal check
+    i = 3
+    while i < board_width
+      j = 3
+      while j < board_height
+        if board[i][j] == player && board[i-1][j-1] == player && board[i-2][j-2] == player && board[i-3][j-3] == player
+          return true
+        end
+        j += 1
+      end
+      i += 1
+    end
+
+    # if no winners
+    false
+  end
+
+  def board_width(board = @game_board)
+    board.length
+  end
+
+  def board_height(board = @game_board)
+    board[0].length
   end
 end
 

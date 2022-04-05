@@ -1,5 +1,5 @@
 class ConnectFour
-  attr_accessor :player_b, :player_r
+  attr_accessor :player_b, :player_r, :game_board
   def initialize
     @player_b = Player.new('b')
     @player_r = Player.new('r')

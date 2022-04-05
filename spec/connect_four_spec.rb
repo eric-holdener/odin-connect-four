@@ -18,17 +18,21 @@ describe ConnectFour do
         player = game.player_r
         expect(player).to be_kind_of(Player)
       end
+
+      it 'has a 7x7 game board' do
+        expect(game.game_board.length).to be(7)
+      end
     end
   end
 
   describe '#create_game_board' do
-    context 'when game board is created' do
+    context 'when game board is created, creates a 7x7 board' do
       it 'creates an array of length 7' do
         game_board = game.create_game_board
         expect(game_board.length).to be(7)
       end
 
-      it 'creates nested arrays of 7' do
+      it 'creates nested arrays of length 7' do
         game_board = game.create_game_board
         expect(game_board[0].length).to be(7)
       end

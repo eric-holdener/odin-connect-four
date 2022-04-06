@@ -10,6 +10,22 @@ class ConnectFour
     @winner = false
   end
 
+  def play_game
+    while @winner == false
+      if check_for_win
+        @winner = true
+        display_winner(@current_player)
+        break
+      elsif moves_left(@game_board) == false
+        @winner = true
+        puts "It looks like you tied! No one wins."
+        break
+      end
+      current_player = get_current_player
+      valid_moves = valid_moves(@game_board)
+    end
+  end
+
   def create_game_board(board_width, board_height)
     game_board = []
     board_width.times { game_board.push(Array.new(board_height)) }
@@ -85,21 +101,6 @@ class ConnectFour
     board[0].length
   end
 
-  def play_game
-    while @winner == false
-      if check_for_win
-        @winner = true
-        display_winner(@current_player)
-        break
-      elsif moves_left(@game_board) == false
-        @winner = true
-        puts "It looks like you tied! No one wins."
-        break
-      end
-      current_player = get_current_player
-    end
-  end
-
   def get_current_player
     if @current_player == @player_b
       @current_player = @player_r
@@ -125,6 +126,9 @@ class ConnectFour
     end
     false
   end
+
+  def valid_moves(board)
+  end
 end
 
 class Player
@@ -133,5 +137,8 @@ class Player
   def initialize(symbol, name)
     @symbol = symbol
     @name = name
+  end
+
+  def get_move
   end
 end

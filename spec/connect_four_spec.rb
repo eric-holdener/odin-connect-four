@@ -155,6 +155,22 @@ describe ConnectFour do
       end
     end
   end
+
+  describe '#valid moves' do
+    context 'given the game board, returns all valid moves' do
+      it 'returns a full array of valid moves with an empty game board' do
+        # test code
+      end
+
+      it 'returns a partial array of moves based on empty locations on game board' do
+        # test code
+      end
+
+      it 'returns an empty array if there are no moves left' do
+        # test code
+      end
+    end
+  end
 end
 
 describe Player do
@@ -177,4 +193,18 @@ describe Player do
       end
     end
   end
+
+  describe '#get move' do
+    context 'prompts the user to enter a move, feeds it to the game' do
+      it 'accepts a valid move and returns the move, formatted' do
+        # test code
+      end
+
+      it 'rejects an invalid move and prompts the user again' do
+        # test code
+      end
+
+      it 'rejects invalid inputs (letters, etc) and prompts the user again' do
+        # test code
+      end
 end

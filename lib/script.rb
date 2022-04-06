@@ -140,7 +140,17 @@ class Player
     @name = name
   end
 
-  def get_move
-    # to code
+  def get_move(width)
+    loop do
+      user_input = gets.chomp
+      verified_input = verify_input(width, user_input.to_i) if user_input.match?(/^\d+$/)
+      return verified_input if verified_input
+
+      puts "Input error! Please enter a number between 0 and #{width}."
+    end
+  end
+
+  def verify_input(width, number)
+    return number if number.between?(0, width)
   end
 end

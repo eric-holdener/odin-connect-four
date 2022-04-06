@@ -195,17 +195,63 @@ describe Player do
   end
 
   describe '#get move' do
-    context 'prompts the user to enter a move, feeds it to the game' do
+    context 'When the user enters a valid move' do
+      before do
+        user_input = '6'
+        allow(player).to receive(:gets).and_return(user_input)
+      end
+
       it 'accepts a valid move and returns the move, formatted' do
-        # test code
+        expect(player.get_move(7)).to eq(6)
+      end
+    end
+
+    context 'When the user enters an invalid move and then a valid move' do
+      before do
+        invalid_input = '11'
+        user_input = '6'
+        allow(player).to receive(:gets).and_return(invalid_input, user_input)
       end
 
       it 'rejects an invalid move and prompts the user again' do
-        # test code
+        width = 7
+        error_message = "Input error! Please enter a number between 0 and #{width}."
+        expect(player).to receive(:puts).with(error_message)
+        player.get_move(width)
+      end
+    end
+
+    context 'When the user enters an invalid input then a valid input' do
+      before do
+        invalid_input = 'hello'
+        user_input = '6'
+        allow(player).to receive(:gets).and_return(invalid_input, user_input)
       end
 
       it 'rejects invalid inputs (letters, etc) and prompts the user again' do
-        # test code
+        width = 7
+        error_message = "Input error! Please enter a number between 0 and #{width}."
+        expect(player).to receive(:puts).with(error_message)
+        player.get_move(width)
+      end
+    end
+  end
+
+  describe '#verify input' do
+    context 'verifies the user input is within the scope of the game' do
+      it 'returns number for an input within the width of the game board' do
+        number = player.verify_input(7, 6)
+        expect(number).to eq(6)
+      end
+
+      it 'returns nil for an input greater than the width of the game board' do
+        number = player.verify_input(7, 8)
+        expect(number).to eq(nil)
+      end
+
+      it 'returns nil for an input less than 0' do
+        number = player.verify_input(7, -3)
+        expect(number).to eq(nil)
       end
     end
   end

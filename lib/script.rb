@@ -1,3 +1,4 @@
+require 'pry-byebug'
 class ConnectFour
   attr_accessor :player_b, :player_r, :game_board
   def initialize(board_width, board_height)
@@ -13,6 +14,8 @@ class ConnectFour
   end
 
   def check_for_win(player, board = @game_board)
+    board_height = board_height(board)
+    board_width = board_width(board)
     # j for height traversal
     # i for width traversal
     # horizontal checks
@@ -38,7 +41,7 @@ class ConnectFour
         end
         j += 1
       end
-      j += 1
+      i += 1
     end
 
     # ascending diagonal check

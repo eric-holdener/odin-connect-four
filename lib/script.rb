@@ -1,10 +1,12 @@
 require 'pry-byebug'
 class ConnectFour
-  attr_accessor :player_b, :player_r, :game_board
-  def initialize(board_width, board_height)
+  attr_accessor :player_b, :player_r, :game_board, :current_player
+
+  def initialize(board_width = 7, board_height = 7)
     @player_b = Player.new('b')
     @player_r = Player.new('r')
     @game_board = create_game_board(board_width, board_height)
+    @current_player = @player_b
   end
 
   def create_game_board(board_width, board_height)
@@ -22,7 +24,7 @@ class ConnectFour
     j = 0
     while j < board_height - 3
       i = 0
-      while i < board_width - 2
+      while i < board_width
         if board[i][j] == player && board[i][j+1] == player && board[i][j+2] == player && board[i][j+3] == player
           return true
         end
@@ -81,10 +83,26 @@ class ConnectFour
   def board_height(board = @game_board)
     board[0].length
   end
+
+  def play_game
+    current_player = get_current_player
+  end
+
+  def get_current_player
+    if @current_player == @player_b
+      @current_player = @player_r
+      player = @player_r
+    else
+      @current_player = @player_b
+      player = @player_b
+    end
+    player
+  end
 end
 
 class Player
   attr_accessor :symbol
+
   def initialize(symbol)
     @symbol = symbol
   end

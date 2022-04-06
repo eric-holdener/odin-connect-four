@@ -19,8 +19,12 @@ describe ConnectFour do
         expect(player).to be_kind_of(Player)
       end
 
-      it 'has a 7x7 game board' do
+      it 'has a default 7x7 game board' do
         expect(game.game_board.length).to be(7)
+      end
+
+      it 'sets current_player to player_b to start' do
+        expect(game.current_player.symbol).to eq('b')
       end
     end
   end
@@ -106,6 +110,20 @@ describe ConnectFour do
       it 'returns 8 for a modified board height' do
         board = game.create_game_board(8, 8)
         expect(game.board_height(board)).to be(8)
+      end
+    end
+  end
+
+  describe '#get current player' do
+    context 'based on last player, gets the current player' do
+      it 'Returns player_b when current player is player_r' do
+        game.current_player = game.player_r
+        expect(game.get_current_player.symbol).to eq('b')
+      end
+
+      it 'Returns player_r when current player is player_b' do
+        game.current_player = game.player_b
+        expect(game.get_current_player.symbol).to eq('r')
       end
     end
   end

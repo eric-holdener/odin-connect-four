@@ -159,15 +159,36 @@ describe ConnectFour do
   describe '#valid moves' do
     context 'given the game board, returns all valid moves' do
       it 'returns a full array of valid moves with an empty game board' do
-        # test code
+        board = game.game_board
+        test = game.valid_moves(board)
+        expected = [0, 1, 2, 3, 4, 5, 6]
+        expect(test).to eq(expected)
       end
 
       it 'returns a partial array of moves based on empty locations on game board' do
-        # test code
+        board = game.game_board
+        board.each_with_index do |value, idx|
+          board[idx].each_with_index do |value2, idx2|
+            if idx == 0
+              board[idx][idx2] = 'r'
+            end
+          end
+        end
+        test = game.valid_moves(board)
+        expected = [1, 2, 3, 4, 5, 6]
+        expect(test).to eq(expected)
       end
 
       it 'returns an empty array if there are no moves left' do
-        # test code
+        board = game.game_board
+        board.each_with_index do |value, idx|
+          board[idx].each_with_index do |value2, idx2|
+            board[idx][idx2] = 'r'
+          end
+        end
+        test = game.valid_moves(board)
+        expected = []
+        expect(test).to eq(expected)
       end
     end
   end

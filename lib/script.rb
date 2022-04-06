@@ -128,7 +128,16 @@ class ConnectFour
   end
 
   def valid_moves(board)
-    # to code
+    valid_indexes = []
+    board.each_with_index do |value, idx|
+      board[idx].each_with_index do |value2, idx2|
+        if board[idx][idx2] == nil
+          valid_indexes.push(idx)
+          break
+        end
+      end
+    end
+    valid_indexes
   end
 end
 

@@ -128,6 +128,7 @@ class ConnectFour
   end
 
   def valid_moves(board)
+    # to code
   end
 end
 
@@ -140,5 +141,6 @@ class Player
   end
 
   def get_move
+    # to code
   end
 end

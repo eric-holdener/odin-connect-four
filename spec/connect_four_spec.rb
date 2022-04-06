@@ -207,4 +207,6 @@ describe Player do
       it 'rejects invalid inputs (letters, etc) and prompts the user again' do
         # test code
       end
+    end
+  end
 end

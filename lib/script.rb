@@ -3,10 +3,11 @@ class ConnectFour
   attr_accessor :player_b, :player_r, :game_board, :current_player
 
   def initialize(board_width = 7, board_height = 7)
-    @player_b = Player.new('b')
-    @player_r = Player.new('r')
+    @player_b = Player.new('b', 'Blue')
+    @player_r = Player.new('r', 'Red')
     @game_board = create_game_board(board_width, board_height)
     @current_player = @player_b
+    @winner = false
   end
 
   def create_game_board(board_width, board_height)
@@ -85,7 +86,18 @@ class ConnectFour
   end
 
   def play_game
-    current_player = get_current_player
+    while @winner == false
+      if check_for_win
+        @winner = true
+        display_winner(@current_player)
+        break
+      elsif moves_left(@game_board) == false
+        @winner = true
+        puts "It looks like you tied! No one wins."
+        break
+      end
+      current_player = get_current_player
+    end
   end
 
   def get_current_player
@@ -98,12 +110,20 @@ class ConnectFour
     end
     player
   end
+
+  def display_winner(winner)
+    puts "The game is over! #{winner.name} is the winner."
+  end
+
+  def moves_left(board)
+  end
 end
 
 class Player
-  attr_accessor :symbol
+  attr_accessor :symbol, :name
 
-  def initialize(symbol)
+  def initialize(symbol, name)
     @symbol = symbol
+    @name = name
   end
 end

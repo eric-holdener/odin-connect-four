@@ -127,10 +127,38 @@ describe ConnectFour do
       end
     end
   end
+
+  describe '#display winner' do
+    context 'Writes a message to console with the winner of the game' do
+      it 'Outputs the winner blue if the winner is blue' do
+        message = "The game is over! Blue is the winner.\n"
+        expect { game.display_winner(game.player_b) }.to output(message).to_stdout
+      end
+    end
+  end
+
+  describe '#moves_left' do
+    context 'returns true / false depending on if there are moves left on the board' do
+      it 'returns true if there are moves left' do
+        board = game.game_board
+        expect(moves_left(board)).to be true
+      end
+
+      it 'returns false if there are no moves left' do
+        board = game.create_game_board
+        board.each_with_index do |value, idx|
+          board[idx].each_with_index do |value2, idx2|
+            board[idx][idx2] = 'not empty'
+          end
+        end
+        expect(moves_left(board)).to be false
+      end
+    end
+  end
 end
 
 describe Player do
-  subject(:player) { described_class.new('b') }
+  subject(:player) { described_class.new('b', 'blue') }
 
   describe '#initialize' do
     context 'when player object is created' do
@@ -141,6 +169,11 @@ describe Player do
       it 'has a symbol associated with it' do
         symbol = player.symbol
         expect(symbol).to eq('b')
+      end
+
+      it 'has a name associated with it' do
+        name = player.name
+        expect(name).to eq('blue')
       end
     end
   end

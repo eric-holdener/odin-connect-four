@@ -141,17 +141,17 @@ describe ConnectFour do
     context 'returns true / false depending on if there are moves left on the board' do
       it 'returns true if there are moves left' do
         board = game.game_board
-        expect(moves_left(board)).to be true
+        expect(game.moves_left(board)).to be true
       end
 
       it 'returns false if there are no moves left' do
-        board = game.create_game_board
+        board = game.create_game_board(7, 7)
         board.each_with_index do |value, idx|
           board[idx].each_with_index do |value2, idx2|
             board[idx][idx2] = 'not empty'
           end
         end
-        expect(moves_left(board)).to be false
+        expect(game.moves_left(board)).to be false
       end
     end
   end

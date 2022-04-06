@@ -116,6 +116,14 @@ class ConnectFour
   end
 
   def moves_left(board)
+    board.each_with_index do |value, idx|
+      board[idx].each_with_index do |value2, idx2|
+        if board[idx][idx2].nil?
+          return true
+        end
+      end
+    end
+    false
   end
 end
 

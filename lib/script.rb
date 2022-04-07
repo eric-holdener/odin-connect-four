@@ -27,9 +27,10 @@ class ConnectFour
       symbol = current_player.symbol
 
       # print board
-      print_board(@game_board)
+      print_board(@game_board, board_width(board))
 
       # get the player move
+      puts 'Please enter the number of the row you want to place your piece!'
       player_move = current_player.get_move(board_width)
 
       # place the player symbol in the row the player selected (player_move)
@@ -154,23 +155,26 @@ class ConnectFour
     valid_indexes
   end
 
-  def print_board(board = @game_board)
-    string = ""
-    board.each_with_index do |value, idx|
-      board[idx].each_with_index do |value2, idx2|
-        if board[idx][idx2] == nil
-          string = string + " \n"
-        else
-          string = string + "#{board[idx][idx2]}\n"
-        end
-      end
-      string = string + "-\n#{idx}"
+  def print_board(board = @game_board, width)
+    board.each do |column|
+      puts column.join(' ')
     end
-    puts string
+    puts (0..width).to_a.join(' ')
   end
 
   def update_board(symbol, idx, board = @game_board)
-    # write code to "drop" pieces in
+    height = board_height(board)
+    while height > -1
+      if height == 0
+        board[idx][height] = symbol
+        return board
+      elsif board[idx][height] != nil
+        board[idx][height + 1] = symbol
+        return board
+      else
+        height -= 1
+      end
+    end
   end
 end
 
@@ -184,7 +188,6 @@ class Player
 
   def get_move(width)
     loop do
-      puts 'Please enter the number of the row you want to place your piece!'
       user_input = gets.chomp
       verified_input = verify_input(width, user_input.to_i) if user_input.match?(/^\d+$/)
       return verified_input if verified_input
@@ -199,4 +202,4 @@ class Player
 end
 
 test = ConnectFour.new(7, 7)
-test.print_board
+test.print_board(test.game_board, 7)

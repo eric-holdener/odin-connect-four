@@ -21,8 +21,22 @@ class ConnectFour
         puts "It looks like you tied! No one wins."
         break
       end
+      # create using variables
       current_player = get_current_player
       valid_moves = valid_moves(@game_board)
+      symbol = current_player.symbol
+
+      # print board
+      print_board(@game_board)
+
+      # get the player move
+      player_move = current_player.get_move(board_width)
+
+      # place the player symbol in the row the player selected (player_move)
+      update_board(symbol, player_move, board)
+      
+      # rerun play_game
+      play_game
     end
   end
 
@@ -139,6 +153,25 @@ class ConnectFour
     end
     valid_indexes
   end
+
+  def print_board(board = @game_board)
+    string = ""
+    board.each_with_index do |value, idx|
+      board[idx].each_with_index do |value2, idx2|
+        if board[idx][idx2] == nil
+          string = string + " \n"
+        else
+          string = string + "#{board[idx][idx2]}\n"
+        end
+      end
+      string = string + "-\n#{idx}"
+    end
+    puts string
+  end
+
+  def update_board(symbol, idx, board = @game_board)
+    # write code to "drop" pieces in
+  end
 end
 
 class Player
@@ -151,6 +184,7 @@ class Player
 
   def get_move(width)
     loop do
+      puts 'Please enter the number of the row you want to place your piece!'
       user_input = gets.chomp
       verified_input = verify_input(width, user_input.to_i) if user_input.match?(/^\d+$/)
       return verified_input if verified_input
@@ -163,3 +197,6 @@ class Player
     return number if number.between?(0, width)
   end
 end
+
+test = ConnectFour.new(7, 7)
+test.print_board

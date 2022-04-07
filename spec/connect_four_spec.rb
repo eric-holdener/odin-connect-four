@@ -192,6 +192,28 @@ describe ConnectFour do
       end
     end
   end
+
+  describe '#update board' do
+    context 'puts the proper player symbol in the lowest index of the row the player chose' do
+      it 'places at index[0][0] symbol b for player blue selecting row 0 and row 0 is empty' do
+        symbol = game.player_b.symbol
+        player_move = 0
+        board = game.game_board
+        board = game.update_board(symbol, player_move, board)
+        expect(board[0][0]).to eq('b')
+      end
+
+      it 'places move at [0][2] if [0][0] and [0][1] have moves already' do
+        symbol = game.player_b.symbol
+        player_move = 0
+        board = game.game_board
+        board[0][0] = 'r'
+        board[0][1] = 'b'
+        board = game.update_board(symbol, player_move, board)
+        expect(board[0][2]).to eq('b')
+      end
+    end
+  end
 end
 
 describe Player do

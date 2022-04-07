@@ -167,10 +167,10 @@ describe ConnectFour do
 
       it 'returns a partial array of moves based on empty locations on game board' do
         board = game.game_board
-        board.each_with_index do |value, idx|
-          board[idx].each_with_index do |value2, idx2|
-            if idx == 0
-              board[idx][idx2] = 'r'
+        board.each_with_index do |value, row|
+          board[row].each_with_index do |value2, column|
+            if column == 0
+              board[row][column] = 'r'
             end
           end
         end
@@ -200,17 +200,17 @@ describe ConnectFour do
         player_move = 0
         board = game.game_board
         board = game.update_board(symbol, player_move, board)
-        expect(board[0][6]).to eq('b')
+        expect(board[0][0]).to eq('b')
       end
 
-      it 'places move at [0][5] if [0][7] and [0][6] have moves already' do
+      it 'places move at [2][0] if [1][0] and [0][0] have moves already' do
         symbol = game.player_b.symbol
         player_move = 0
         board = game.game_board
-        board[0][6] = 'r'
-        board[0][5] = 'b'
+        board[1][0] = 'r'
+        board[0][0] = 'b'
         board = game.update_board(symbol, player_move, board)
-        expect(board[0][4]).to eq('b')
+        expect(board[2][0]).to eq('b')
       end
     end
   end

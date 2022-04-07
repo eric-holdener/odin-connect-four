@@ -28,7 +28,7 @@ class ConnectFour
       board = @game_board
 
       # print board
-      print_board(@game_board, board_width(board))
+      print_board(@game_board, board_width(board), board_height(board))
 
       # get the player move
       puts 'Please enter the number of the row you want to place your piece!'
@@ -36,7 +36,7 @@ class ConnectFour
 
       # place the player symbol in the row the player selected (player_move)
       @game_board = update_board(symbol, player_move, board)
-      
+
       # rerun play_game
       play_game
     end
@@ -51,13 +51,13 @@ class ConnectFour
   def check_for_win(player, board = @game_board)
     board_height = board_height(board)
     board_width = board_width(board)
-    # j for height traversal
-    # i for width traversal
+    # j for width traversal
+    # i for height traversal
     # horizontal checks
     j = 0
-    while j < board_height - 3
+    while j < board_width - 3
       i = 0
-      while i < board_width
+      while i < board_height
         if board[i][j] == player && board[i][j+1] == player && board[i][j+2] == player && board[i][j+3] == player
           return true
         end
@@ -68,9 +68,9 @@ class ConnectFour
 
     # vertical checks
     i = 0
-    while i < board_width - 3
+    while i < board_height - 3
       j = 0
-      while j < board_height
+      while j < board_width
         if board[i][j] == player && board[i+1][j] == player && board[i+2][j] == player && board[i+3][j] == player
           return true
         end
@@ -81,9 +81,9 @@ class ConnectFour
 
     # ascending diagonal check
     i = 3
-    while i < board_width
+    while i < board_height
       j = 0
-      while j < board_height - 3
+      while j < board_width - 3
         if board[i][j] == player && board[i-1][j+1] == player && board[i-2][j+2] == player && board[i-3][j+3] == player
           return true
         end
@@ -94,9 +94,9 @@ class ConnectFour
 
     # descending diagonal check
     i = 3
-    while i < board_width
+    while i < board_height
       j = 3
-      while j < board_height
+      while j < board_width
         if board[i][j] == player && board[i-1][j-1] == player && board[i-2][j-2] == player && board[i-3][j-3] == player
           return true
         end
@@ -145,10 +145,12 @@ class ConnectFour
 
   def valid_moves(board)
     valid_indexes = []
-    board.each_with_index do |value, idx|
-      board[idx].each_with_index do |value2, idx2|
-        if board[idx][idx2] == nil
-          valid_indexes.push(idx)
+    board.each_with_index do |value, row|
+      board[row].each_with_index do |value2, column|
+        if valid_indexes.include? column
+          next
+        elsif board[row][column] == nil
+          valid_indexes.push(column)
           break
         end
       end
@@ -157,24 +159,17 @@ class ConnectFour
   end
 
   def print_board(board = @game_board, width)
-    board.each do |column|
-      puts column.join(' ')
+    board.each do |row|
+      puts row.join(' ')
     end
-    puts (0..width).to_a.join(' ')
+    puts (0..width - 1).to_a.join(' ')
   end
 
-  def update_board(symbol, idx, board = @game_board)
-    height = board_height(board)
-    i = 0
-    while i < height
-      if i == 6
-        board[idx][i] = symbol
+  def update_board(symbol, location, board = @game_board)
+    board.each_with_index do |value, idx|
+      if board[idx][location].nil?
+        board[idx][location] = symbol
         return board
-      elsif board[idx][i] != nil
-        board[idx][i - 1] = symbol
-        return board
-      else
-        i += 1
       end
     end
   end

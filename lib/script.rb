@@ -12,7 +12,7 @@ class ConnectFour
 
   def play_game
     while @winner == false
-      if check_for_win
+      if check_for_win(@current_player)
         @winner = true
         display_winner(@current_player)
         break
@@ -25,6 +25,7 @@ class ConnectFour
       current_player = get_current_player
       valid_moves = valid_moves(@game_board)
       symbol = current_player.symbol
+      board = @game_board
 
       # print board
       print_board(@game_board, board_width(board))
@@ -34,7 +35,7 @@ class ConnectFour
       player_move = current_player.get_move(board_width)
 
       # place the player symbol in the row the player selected (player_move)
-      update_board(symbol, player_move, board)
+      @game_board = update_board(symbol, player_move, board)
       
       # rerun play_game
       play_game
@@ -164,15 +165,16 @@ class ConnectFour
 
   def update_board(symbol, idx, board = @game_board)
     height = board_height(board)
-    while height > -1
-      if height == 0
-        board[idx][height] = symbol
+    i = 0
+    while i < height
+      if i == 6
+        board[idx][i] = symbol
         return board
-      elsif board[idx][height] != nil
-        board[idx][height + 1] = symbol
+      elsif board[idx][i] != nil
+        board[idx][i - 1] = symbol
         return board
       else
-        height -= 1
+        i += 1
       end
     end
   end
@@ -201,5 +203,5 @@ class Player
   end
 end
 
-test = ConnectFour.new(7, 7)
-test.print_board(test.game_board, 7)
+# test = ConnectFour.new(7, 7)
+# test.play_game
